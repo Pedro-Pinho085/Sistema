@@ -10,102 +10,156 @@
             --primary-hover: #0056b3;
             --bg-color: #f4f4f9;
             --text-color: #333;
+            --muted-color: #666;
             --border-color: #ddd;
             --success-color: #28a745;
+            --danger-color: #dc3545;
+            --danger-hover: #a71d2a;
         }
 
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 20px; 
-            background-color: var(--bg-color); 
-            color: var(--text-color); 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
-        
-        .container { 
-            display: flex; 
-            gap: 20px; 
-            flex-wrap: wrap; 
+
+        .container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
         }
-        
-        .box { 
-            background: #fff; 
-            padding: 20px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
-            flex: 1; 
-            min-width: 300px; 
+
+        .box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            flex: 1;
+            min-width: 280px;
+            box-sizing: border-box;
         }
-        
-        h2 { 
-            border-bottom: 2px solid var(--primary-color); 
-            padding-bottom: 10px; 
-            color: var(--primary-color); 
+
+        .box-largo {
+            flex: 2;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            color: var(--primary-color);
             margin-top: 0;
         }
-        
+
+        .contador {
+            font-size: 0.8em;
+            color: var(--muted-color);
+            font-weight: normal;
+        }
+
         label {
             display: block;
             margin-top: 10px;
             font-weight: 600;
         }
 
-        input[type="text"], input[type="email"], input[type="number"] { 
-            width: 100%; 
-            padding: 10px; 
-            margin: 8px 0 15px 0; 
-            box-sizing: border-box; 
+        input[type="text"], input[type="email"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px 0;
+            box-sizing: border-box;
             border: 1px solid var(--border-color);
             border-radius: 4px;
         }
-        
-        button { 
-            background-color: var(--primary-color); 
-            color: #fff; 
-            padding: 10px 20px; 
-            border: none; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            font-weight: bold; 
+
+        button {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
             width: 100%;
         }
-        
-        button:hover { 
-            background-color: var(--primary-hover); 
+
+        button:hover {
+            background-color: var(--primary-hover);
         }
-        
-        .alert-success { 
-            color: var(--success-color); 
-            font-weight: bold; 
-            margin-bottom: 15px; 
-            display: none; 
+
+        button.btn-excluir {
+            background-color: var(--danger-color);
+            padding: 6px 12px;
+            width: auto;
+            font-size: 0.85em;
         }
-        
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 10px; 
+
+        button.btn-excluir:hover {
+            background-color: var(--danger-hover);
         }
-        
-        table, th, td { 
-            border: 1px solid var(--border-color); 
+
+        .alerta {
+            font-weight: bold;
+            margin-bottom: 15px;
         }
-        
-        th, td { 
-            padding: 12px; 
-            text-align: left; 
+
+        .alerta[hidden] {
+            display: none;
         }
-        
-        th { 
-            background-color: #f8f9fa; 
+
+        .alerta-sucesso {
+            color: var(--success-color);
         }
-        
-        ul { 
-            padding-left: 20px; 
+
+        .alerta-erro {
+            color: var(--danger-color);
+        }
+
+        .vazio {
+            color: var(--muted-color);
+        }
+
+        .tabela-rolavel {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 10px;
         }
-        
-        li { 
-            margin-bottom: 8px; 
+
+        table, th, td {
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            overflow-wrap: anywhere;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        td.preco, th.preco {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        td.acoes, th.acoes {
+            width: 1%;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                margin: 16px;
+            }
         }
     </style>
 </head>
@@ -114,178 +168,309 @@
     <header>
         <h1>Sistema Corporativo de Gestão</h1>
     </header>
-    
-    <main class="container">
-        <!-- FORMULÁRIO: CADASTRO DE CLIENTES -->
-        <section class="box">
-            <h2>Cadastro de Clientes</h2>
-            <p id="msg-cliente" class="alert-success" role="alert">Cliente cadastrado com sucesso.</p>
-            <form id="form-cliente">
-                <label for="cli-nome">Nome Completo</label>
-                <input type="text" id="cli-nome" required autocomplete="name">
-                
-                <label for="cli-email">E-mail Institucional</label>
-                <input type="email" id="cli-email" required autocomplete="email">
-                
-                <button type="submit">Registrar Cliente</button>
-            </form>
-        </section>
 
-        <!-- FORMULÁRIO: CADASTRO DE PRODUTOS -->
-        <section class="box">
-            <h2>Cadastro de Produtos</h2>
-            <p id="msg-produto" class="alert-success" role="alert">Produto cadastrado com sucesso.</p>
-            <form id="form-produto">
-                <label for="prod-nome">Descrição do Produto</label>
-                <input type="text" id="prod-nome" required>
-                
-                <label for="prod-preco">Preço Unitário (R\$)</label>
-                <input type="number" step="0.01" id="prod-preco" required min="0">
-                
-                <button type="submit">Registrar Produto</button>
-            </form>
-        </section>
+    <main>
+        <div class="container">
+            <!-- FORMULÁRIO: CADASTRO DE CLIENTES -->
+            <section class="box">
+                <h2>Cadastro de Clientes</h2>
+                <p id="msg-cliente" class="alerta" role="status" aria-live="polite" hidden></p>
+                <form id="form-cliente" novalidate>
+                    <label for="cli-nome">Nome Completo</label>
+                    <input type="text" id="cli-nome" required maxlength="120" autocomplete="name">
+
+                    <label for="cli-email">E-mail Institucional</label>
+                    <input type="email" id="cli-email" required maxlength="120" autocomplete="email">
+
+                    <button type="submit">Registrar Cliente</button>
+                </form>
+            </section>
+
+            <!-- FORMULÁRIO: CADASTRO DE PRODUTOS -->
+            <section class="box">
+                <h2>Cadastro de Produtos</h2>
+                <p id="msg-produto" class="alerta" role="status" aria-live="polite" hidden></p>
+                <form id="form-produto" novalidate>
+                    <label for="prod-nome">Descrição do Produto</label>
+                    <input type="text" id="prod-nome" required maxlength="120">
+
+                    <label for="prod-preco">Preço Unitário (R$)</label>
+                    <input type="number" step="0.01" id="prod-preco" required min="0" inputmode="decimal">
+
+                    <button type="submit">Registrar Produto</button>
+                </form>
+            </section>
+        </div>
+
+        <div class="container" style="margin-top: 20px;">
+            <!-- LISTAGEM DE CLIENTES -->
+            <section class="box box-largo">
+                <h2>Clientes Cadastrados <span id="contador-clientes" class="contador"></span></h2>
+                <div id="container-tabela-clientes" class="tabela-rolavel"></div>
+            </section>
+
+            <!-- LISTAGEM DE PRODUTOS -->
+            <section class="box">
+                <h2>Produtos Cadastrados <span id="contador-produtos" class="contador"></span></h2>
+                <div id="container-lista-produtos" class="tabela-rolavel"></div>
+            </section>
+        </div>
     </main>
-
-    <div class="container" style="margin-top: 20px;">
-        <!-- REPOSITÓRIO E LISTAGEM DE CLIENTES -->
-        <section class="box" style="flex: 2;">
-            <h2>Clientes Cadastrados</h2>
-            <div id="container-tabela-clientes"></div>
-        </section>
-
-        <!-- REPOSITÓRIO E LISTAGEM DE PRODUTOS -->
-        <section class="box">
-            <h2>Produtos Cadastrados</h2>
-            <div id="container-lista-produtos"></div>
-        </section>
-    </div>
 
     <script>
         /**
-         * Inicialização do módulo de gerenciamento de dados do sistema.
-         * Utiliza escopo isolado para segurança e integridade das variáveis.
+         * Módulo de gerenciamento de clientes e produtos.
+         * Todo texto vindo do usuário é inserido via textContent (nunca innerHTML),
+         * para evitar injeção de HTML/script a partir dos dados salvos.
          */
         (function() {
             'use strict';
 
-            // Camada de Persistência local (LocalStorage)
+            // Camada de persistência local (localStorage), tolerante a dados corrompidos
+            // e a navegadores que bloqueiam o armazenamento.
             const repositorio = {
-                obter: (chave) => JSON.parse(localStorage.getItem(chave)) || [],
-                salvar: (chave, dados) => localStorage.setItem(chave, JSON.stringify(dados))
+                obter(chave) {
+                    try {
+                        const dados = JSON.parse(localStorage.getItem(chave));
+                        return Array.isArray(dados) ? dados : [];
+                    } catch (erro) {
+                        console.warn(`Dados inválidos em "${chave}"; iniciando lista vazia.`, erro);
+                        return [];
+                    }
+                },
+                salvar(chave, dados) {
+                    try {
+                        localStorage.setItem(chave, JSON.stringify(dados));
+                        return true;
+                    } catch (erro) {
+                        console.error(`Não foi possível salvar "${chave}".`, erro);
+                        return false;
+                    }
+                }
             };
 
-            // Estados locais da aplicação
-            let listaClientes = repositorio.obter('clientes');
-            let listaProdutos = repositorio.obter('produtos');
+            function gerarId() {
+                if (window.crypto && typeof crypto.randomUUID === 'function') {
+                    return crypto.randomUUID();
+                }
+                return Date.now().toString(36) + Math.random().toString(36).slice(2);
+            }
 
-            // Mapeamento de Elementos do DOM
+            // Registros antigos (da versão anterior) não têm id; atribui um na carga.
+            function normalizar(lista) {
+                return lista.map(item => (item && item.id ? item : { ...item, id: gerarId() }));
+            }
+
+            let listaClientes = normalizar(repositorio.obter('clientes'));
+            let listaProdutos = normalizar(repositorio.obter('produtos'));
+
+            const formatadorMoeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
             const dom = {
                 formCliente: document.getElementById('form-cliente'),
                 formProduto: document.getElementById('form-produto'),
+                cliNome: document.getElementById('cli-nome'),
+                cliEmail: document.getElementById('cli-email'),
+                prodNome: document.getElementById('prod-nome'),
+                prodPreco: document.getElementById('prod-preco'),
                 tabelaClientes: document.getElementById('container-tabela-clientes'),
-                listaProdutos: document.getElementById('container-lista-produtos')
+                listaProdutos: document.getElementById('container-lista-produtos'),
+                contadorClientes: document.getElementById('contador-clientes'),
+                contadorProdutos: document.getElementById('contador-produtos')
             };
 
             /**
-             * Renderiza a tabela de clientes com base no estado atual.
+             * Cria um elemento com texto seguro (textContent).
              */
+            function criar(tag, texto, classe) {
+                const el = document.createElement(tag);
+                if (texto !== undefined) el.textContent = texto;
+                if (classe) el.className = classe;
+                return el;
+            }
+
+            /**
+             * Monta uma tabela genérica.
+             * @param {Array<{titulo: string, classe?: string}>} colunas
+             * @param {Array} itens
+             * @param {(item) => Array<string|Node>} celulas - conteúdo de cada coluna
+             */
+            function montarTabela(colunas, itens, celulas) {
+                const tabela = document.createElement('table');
+                const thead = tabela.createTHead();
+                const linhaCabecalho = thead.insertRow();
+                colunas.forEach(coluna => {
+                    const th = criar('th', coluna.titulo, coluna.classe);
+                    th.scope = 'col';
+                    linhaCabecalho.appendChild(th);
+                });
+
+                const tbody = tabela.createTBody();
+                itens.forEach(item => {
+                    const linha = tbody.insertRow();
+                    celulas(item).forEach((conteudo, i) => {
+                        const td = linha.insertCell();
+                        if (colunas[i].classe) td.className = colunas[i].classe;
+                        if (conteudo instanceof Node) td.appendChild(conteudo);
+                        else td.textContent = conteudo;
+                    });
+                });
+                return tabela;
+            }
+
+            function botaoExcluir(rotulo, aoClicar) {
+                const botao = criar('button', 'Excluir', 'btn-excluir');
+                botao.type = 'button';
+                botao.setAttribute('aria-label', rotulo);
+                botao.addEventListener('click', aoClicar);
+                return botao;
+            }
+
             function renderizarClientes() {
+                dom.contadorClientes.textContent = `(${listaClientes.length})`;
+
                 if (listaClientes.length === 0) {
-                    dom.tabelaClientes.innerHTML = '<p>Nenhum registro de cliente localizado.</p>';
+                    dom.tabelaClientes.replaceChildren(criar('p', 'Nenhum registro de cliente localizado.', 'vazio'));
                     return;
                 }
 
-                let html = `
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>E-mail</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-
-                listaClientes.forEach(cliente => {
-                    html += `
-                        <tr>
-                            <td>${cliente.nome}</td>
-                            <td>${cliente.email}</td>
-                        </tr>
-                    `;
-                });
-
-                html += '</tbody></table>';
-                dom.tabelaClientes.innerHTML = html;
+                const tabela = montarTabela(
+                    [{ titulo: 'Nome' }, { titulo: 'E-mail' }, { titulo: 'Ações', classe: 'acoes' }],
+                    listaClientes,
+                    cliente => [
+                        cliente.nome,
+                        cliente.email,
+                        botaoExcluir(`Excluir cliente ${cliente.nome}`, () => excluirCliente(cliente.id))
+                    ]
+                );
+                dom.tabelaClientes.replaceChildren(tabela);
             }
 
-            /**
-             * Renderiza a listagem de produtos com base no estado atual.
-             */
             function renderizarProdutos() {
+                dom.contadorProdutos.textContent = `(${listaProdutos.length})`;
+
                 if (listaProdutos.length === 0) {
-                    dom.listaProdutos.innerHTML = '<p>Nenhum registro de produto localizado.</p>';
+                    dom.listaProdutos.replaceChildren(criar('p', 'Nenhum registro de produto localizado.', 'vazio'));
                     return;
                 }
 
-                let html = '<ul>';
-                listaProdutos.forEach(produto => {
-                    const precoFormatado = produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                    html += `<li>${produto.nome} — <strong>${precoFormatado}</strong></li>`;
-                });
-                html += '</ul>';
-                
-                dom.listaProdutos.innerHTML = html;
+                const tabela = montarTabela(
+                    [{ titulo: 'Produto' }, { titulo: 'Preço', classe: 'preco' }, { titulo: 'Ações', classe: 'acoes' }],
+                    listaProdutos,
+                    produto => [
+                        produto.nome,
+                        Number.isFinite(produto.preco) ? formatadorMoeda.format(produto.preco) : '—',
+                        botaoExcluir(`Excluir produto ${produto.nome}`, () => excluirProduto(produto.id))
+                    ]
+                );
+                dom.listaProdutos.replaceChildren(tabela);
             }
 
             /**
-             * Controla a exibição temporária de notificações de feedback.
-             * @param {string} idElemento - ID do elemento de mensagem.
+             * Exibe uma mensagem temporária. Reinicia o temporizador se já houver
+             * uma mensagem visível, para ela não sumir antes da hora.
+             * @param {string} idElemento
+             * @param {string} texto
+             * @param {'sucesso'|'erro'} tipo
              */
-            function dispararNotificacao(idElemento) {
+            const temporizadores = {};
+            function notificar(idElemento, texto, tipo) {
                 const elemento = document.getElementById(idElemento);
-                elemento.style.display = 'block';
-                setTimeout(() => {
-                    elemento.style.display = 'none';
-                }, 3000);
+                elemento.textContent = texto;
+                elemento.className = `alerta alerta-${tipo}`;
+                elemento.hidden = false;
+
+                clearTimeout(temporizadores[idElemento]);
+                temporizadores[idElemento] = setTimeout(() => {
+                    elemento.hidden = true;
+                }, tipo === 'erro' ? 5000 : 3000);
             }
 
-            // Event Listener: Cadastro de Clientes
+            function excluirCliente(id) {
+                const cliente = listaClientes.find(c => c.id === id);
+                if (!cliente || !confirm(`Excluir o cliente "${cliente.nome}"?`)) return;
+
+                listaClientes = listaClientes.filter(c => c.id !== id);
+                repositorio.salvar('clientes', listaClientes);
+                renderizarClientes();
+            }
+
+            function excluirProduto(id) {
+                const produto = listaProdutos.find(p => p.id === id);
+                if (!produto || !confirm(`Excluir o produto "${produto.nome}"?`)) return;
+
+                listaProdutos = listaProdutos.filter(p => p.id !== id);
+                repositorio.salvar('produtos', listaProdutos);
+                renderizarProdutos();
+            }
+
             dom.formCliente.addEventListener('submit', function(event) {
                 event.preventDefault();
-                
-                const cliente = {
-                    nome: document.getElementById('cli-nome').value.trim(),
-                    email: document.getElementById('cli-email').value.trim()
-                };
 
-                listaClientes.push(cliente);
-                repositorio.salvar('clientes', listaClientes);
-                
+                const nome = dom.cliNome.value.trim();
+                const email = dom.cliEmail.value.trim().toLowerCase();
+
+                if (!nome) {
+                    notificar('msg-cliente', 'Informe o nome do cliente.', 'erro');
+                    dom.cliNome.focus();
+                    return;
+                }
+                if (!email || !dom.cliEmail.checkValidity()) {
+                    notificar('msg-cliente', 'Informe um e-mail válido.', 'erro');
+                    dom.cliEmail.focus();
+                    return;
+                }
+                if (listaClientes.some(c => String(c.email).toLowerCase() === email)) {
+                    notificar('msg-cliente', 'Já existe um cliente com este e-mail.', 'erro');
+                    dom.cliEmail.focus();
+                    return;
+                }
+
+                listaClientes.push({ id: gerarId(), nome, email });
+                if (!repositorio.salvar('clientes', listaClientes)) {
+                    notificar('msg-cliente', 'Cliente adicionado, mas não foi possível salvar no navegador.', 'erro');
+                } else {
+                    notificar('msg-cliente', 'Cliente cadastrado com sucesso.', 'sucesso');
+                }
+
                 dom.formCliente.reset();
-                dispararNotificacao('msg-cliente');
+                dom.cliNome.focus();
                 renderizarClientes();
             });
 
-            // Event Listener: Cadastro de Produtos
             dom.formProduto.addEventListener('submit', function(event) {
                 event.preventDefault();
-                
-                const produto = {
-                    nome: document.getElementById('prod-nome').value.trim(),
-                    preco: parseFloat(document.getElementById('prod-preco').value)
-                };
 
-                listaProdutos.push(produto);
-                repositorio.salvar('produtos', listaProdutos);
-                
+                const nome = dom.prodNome.value.trim();
+                const preco = dom.prodPreco.valueAsNumber;
+
+                if (!nome) {
+                    notificar('msg-produto', 'Informe a descrição do produto.', 'erro');
+                    dom.prodNome.focus();
+                    return;
+                }
+                if (!Number.isFinite(preco) || preco < 0) {
+                    notificar('msg-produto', 'Informe um preço válido (zero ou maior).', 'erro');
+                    dom.prodPreco.focus();
+                    return;
+                }
+
+                // Arredonda para centavos para evitar valores como 10.129999.
+                listaProdutos.push({ id: gerarId(), nome, preco: Math.round(preco * 100) / 100 });
+                if (!repositorio.salvar('produtos', listaProdutos)) {
+                    notificar('msg-produto', 'Produto adicionado, mas não foi possível salvar no navegador.', 'erro');
+                } else {
+                    notificar('msg-produto', 'Produto cadastrado com sucesso.', 'sucesso');
+                }
+
                 dom.formProduto.reset();
-                dispararNotificacao('msg-produto');
+                dom.prodNome.focus();
                 renderizarProdutos();
             });
 
-            // Execução Inicial (Carga de dados persistidos)
+            // Persiste os ids atribuídos a registros antigos e faz a carga inicial.
+            repositorio.salvar('clientes', listaClientes);
+            repositorio.salvar('produtos', listaProdutos);
             renderizarClientes();
             renderizarProdutos();
         })();
